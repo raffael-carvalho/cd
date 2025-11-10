@@ -74,10 +74,10 @@ jobs:
   # ---------------------------------------------------
   deploy-to-local:
     # Este job SÓ RODA se for um push na 'main'
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-    # Ele precisa que o Job 1 termine com sucesso
-    needs: build-and-publish
+    # CORREÇÃO: Ele precisa que o Job 1 (test-and-build) termine com sucesso
+    needs: test-and-build
 
     # Ele roda no seu PC (onde o runner está ouvindo)
     runs-on: self-hosted
@@ -98,11 +98,6 @@ jobs:
       # 3. Executa o Deploy
       - name: Fazer Deploy com Docker Compose
         run: |
-          # Puxa a imagem 'latest' que o Job 1 acabou de construir
           docker-compose pull
-
-          # Sobe o contêiner com a nova imagem.
           docker-compose up -d --no-build
-
-          # (Opcional) Limpa imagens Docker antigas
           docker image prune -f
