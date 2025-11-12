@@ -11,7 +11,7 @@ describe("API Olá Mundo", () => {
 
     // Verifica se o corpo da resposta é o esperado
     expect(response.text).toBe(
-      "Olá Mundo DevOps, Proteger a Branch main e CD!"
+      "Olá Mundo DevOps, Proteger a Branch main e CD em aula!"
     );
   });
 });
